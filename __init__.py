@@ -11,7 +11,7 @@ bl_info = {
 	"support": "COMMUNITY",
 	"category": "System"
 	}
-import rpc
+from . import rpc
 import time
 import bpy
 import threading
@@ -25,8 +25,8 @@ client_id = '434079082339106827'
 rpc_obj = rpc.DiscordIpcClient.for_platform(client_id)
 time.sleep(5)
 start_time = time.time()
-filename = 'test.blend'
-version_no = '2.79'
+filename = bpy.path.basename(bpy.context.blend_data.filepath)
+version_no = bpy.app.version_string
 
 def updatePresence():
 	threading.Timer(30, updatePresence).start()
@@ -39,9 +39,9 @@ def updatePresence():
 		},
 		"assets": {
 			"small_text": "Blender " + version_no,
-			"small_image": "blender_logo",
+			#"small_image": "blender_logo",
 			"large_text": filename,
-			"large_image": "pretty_render"
+			"large_image": "blender_logo"
 		}
 	}
 	rpc_obj.set_activity(activity)
